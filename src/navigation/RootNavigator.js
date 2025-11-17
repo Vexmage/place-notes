@@ -1,4 +1,3 @@
-// src/navigation/RootNavigator.js
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateNoteScreen from '../screens/CreateNoteScreen';
