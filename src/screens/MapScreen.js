@@ -1,16 +1,35 @@
 // src/screens/MapScreen.js
-import { useState } from 'react';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { db } from '../firebase';
 import useUserLocation from '../hooks/useUserLocation';
 
 export default function MapScreen({ navigation }) {
   const { location, errorMsg, loading } = useUserLocation();
   const [notes, setNotes] = useState([]);
 
-  const handleAddNote = (note) => {
-    setNotes((prev) => [...prev, note]);
-  };
+  useEffect(() => {
+    const notesRef = collection(db, 'notes');
+    const q = query(notesRef, orderBy('createdAt', 'desc'));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const loaded = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setNotes(loaded);
+      },
+      (error) => {
+        console.error('Error listening for notes:', error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   if (loading) {
     return (
@@ -44,10 +63,10 @@ export default function MapScreen({ navigation }) {
         initialRegion={region}
         showsUserLocation
       >
-        {/* Marker at your current location (optional, since blue dot already shows it) */}
+        {/* Optional: your own location marker */}
         <Marker coordinate={location} title="You are here" pinColor="red" />
 
-        {/* Render all saved notes */}
+        {/* Render all notes from Firestore */}
         {notes.map((note) => (
           <Marker
             key={note.id}
@@ -58,7 +77,6 @@ export default function MapScreen({ navigation }) {
         ))}
       </MapView>
 
-      {/* Floating button to go to Create Note */}
       <View style={styles.fabContainer}>
         <Button
           title="+ NOTE"
@@ -66,7 +84,6 @@ export default function MapScreen({ navigation }) {
             navigation.navigate('CreateNote', {
               lat: location.latitude,
               lng: location.longitude,
-              onSave: handleAddNote, // pass callback to CreateNoteScreen
             })
           }
         />

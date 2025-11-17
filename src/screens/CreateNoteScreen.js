@@ -1,27 +1,38 @@
 // src/screens/CreateNoteScreen.js
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { db } from '../firebase';
 
 export default function CreateNoteScreen({ route, navigation }) {
-  const { lat, lng, onSave } = route.params || {};
+  const { lat, lng } = route.params || {};
   const [text, setText] = useState('');
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!text.trim()) {
       Alert.alert('Empty note', 'Please enter some text for your note.');
       return;
     }
 
-    if (typeof onSave === 'function' && lat && lng) {
-      onSave({
-        id: Date.now().toString(),
-        text: text.trim(),
-        lat,
-        lng,
-      });
+    if (!lat || !lng) {
+      Alert.alert('Error', 'Missing location for this note.');
+      return;
     }
 
-    navigation.goBack();
+    const note = {
+      text: text.trim(),
+      lat,
+      lng,
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      await addDoc(collection(db, 'notes'), note);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error saving note:', error);
+      Alert.alert('Error', 'Could not save note, please try again.');
+    }
   };
 
   return (
