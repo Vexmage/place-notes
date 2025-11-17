@@ -1,50 +1,75 @@
-# Welcome to your Expo app 👋
+# 📍 PlaceNotes — Location-Based Notes & AR Prototype
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**PlaceNotes** is an experimental React Native + Expo project exploring how people can leave digital notes, memories, jokes, or graffiti *anchored to real-world locations*.
 
-## Get started
+---
 
-1. Install dependencies
+## ✨ MVP Focus
 
-   ```bash
-   npm install
-   ```
+- 📌 **Dropping notes at your current GPS location**
+- 🗺️ **Viewing notes on an interactive map**
+- 📱 **A clean mobile UI built with Expo and React Navigation**
+- 📍 **Precise device geolocation via `expo-location`**
 
-2. Start the app
+Future versions will introduce **augmented reality features** where users can aim their phone at a wall or object and see notes “attached” to the physical world — a lightweight spatial AR experience.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🎯 Project Goals
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Build a working **React Native geolocation + mapping application**
+- Create a minimal backend for **saving, loading, and filtering notes**
+- Demonstrate early AR concepts (**floating notes**, **directional AR view**)
+- Evolve into a real AR prototype using **ARCore / ARKit**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This project serves as:
 
-## Get a fresh project
+- a **portfolio piece** showcasing mobile, mapping, and AR capability  
+- a foundation for **advanced AR spatial anchoring**  
+- an experiment in **digital place-based storytelling**
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## 🛠️ Current Tech Stack
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **React Native (Expo)**
+- **React Navigation**
+- **react-native-maps**
+- **expo-location**
+- **JavaScript / TypeScript support**
+- *(Planned)* **Firebase Firestore**
+- *(Planned)* **ARCore / ARKit**
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🚧 MVP Status
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- ✔ Navigation scaffold  
+- ✔ Project structure  
+- ✔ Map screen placeholder  
+- ✔ Location hook implemented  
+- ⏳ Next: Rendering a live map with user location  
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🌱 Roadmap
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### **Phase 1 — MVP**
+- [ ] Render map with live GPS position  
+- [ ] Create notes at current coordinates  
+- [ ] Display notes as pins/markers  
+- [ ] Add note details modal  
+
+### **Phase 2 — Backend**
+- [ ] Connect Firebase  
+- [ ] Save & load notes  
+- [ ] Filter notes by proximity  
+- [ ] Add visibility radius  
+
+### **Phase 3 — AR Prototype**
+- [ ] Basic AR “floating note” camera mode  
+- [ ] Orientation-aware note indicators  
+- [ ] Wall/surface detection  
+- [ ] Persistent spatial anchors  
+
+---
