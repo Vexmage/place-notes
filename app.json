@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "placenotes",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true
     },
@@ -19,30 +19,35 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.greatlynxdesigns.placenotes"
     },
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-"plugins": [
-  [
-    "expo-splash-screen",
-    {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": {
-        "backgroundColor": "#000000"
-      }
-    }
-  ]
-],
-
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
     "experiments": {
-
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "efc921c4-f235-443e-bda8-034fbaf61378"
+      }
+    },
+    "owner": "greatlynxdesigns"
   }
 }

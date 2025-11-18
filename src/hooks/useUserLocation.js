@@ -1,31 +1,37 @@
-// src/hooks/useUserLocation.js
 import * as Location from 'expo-location';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function useUserLocation() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          setLoading(false);
-          return;
-        }
+  const fetchLocation = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg(null);
 
-        const loc = await Location.getCurrentPositionAsync({});
-        setLocation(loc.coords);
-      } catch (err) {
-        setErrorMsg(err.message ?? 'Error getting location');
-      } finally {
-        setLoading(false);
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied.');
+        setLocation(null);
+        return;
       }
-    })();
+
+      const loc = await Location.getCurrentPositionAsync({});
+      setLocation(loc.coords);
+    } catch (err) {
+      console.log('Location error:', err);
+      setErrorMsg('Current location is unavailable. Make sure location services are enabled.');
+      setLocation(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { location, errorMsg, loading };
+  useEffect(() => {
+    fetchLocation();
+  }, [fetchLocation]);
+
+  return { location, errorMsg, loading, refreshLocation: fetchLocation };
 }

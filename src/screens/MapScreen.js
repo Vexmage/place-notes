@@ -1,4 +1,3 @@
-// src/screens/MapScreen.js
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native';
@@ -7,7 +6,7 @@ import { db } from '../firebase';
 import useUserLocation from '../hooks/useUserLocation';
 
 export default function MapScreen({ navigation }) {
-  const { location, errorMsg, loading } = useUserLocation();
+  const { location, errorMsg, loading, refreshLocation } = useUserLocation();
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -43,8 +42,10 @@ export default function MapScreen({ navigation }) {
   if (errorMsg || !location) {
     return (
       <View style={styles.center}>
-        <Text style={{ marginBottom: 16 }}>{errorMsg || 'No location available'}</Text>
-        <Button title="Retry" onPress={() => { /* later we can add retry */ }} />
+        <Text style={{ marginBottom: 16 }}>
+          {errorMsg || 'Current location is unavailable. Make sure that location services are enabled.'}
+        </Text>
+        <Button title="Retry" onPress={refreshLocation} />
       </View>
     );
   }
@@ -63,10 +64,8 @@ export default function MapScreen({ navigation }) {
         initialRegion={region}
         showsUserLocation
       >
-        {/* Optional: your own location marker */}
         <Marker coordinate={location} title="You are here" pinColor="red" />
 
-        {/* Render all notes from Firestore */}
         {notes.map((note) => (
           <Marker
             key={note.id}
@@ -100,6 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 16,
   },
   fabContainer: {
     position: 'absolute',
